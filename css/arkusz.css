@@ -1,0 +1,35 @@
+#ImgOcti, #DialogCloud, #chat, #answer{
+    position: absolute;
+}
+#conteiner{
+    margin:0 auto;
+}
+#imgOcti{
+    top:20px;
+}
+#DialogCloud{
+    width: 250px;
+    height: auto;
+    top:60px;
+    left:320px;
+}
+#cont{
+    position: relative;
+    width: 170px;
+    height: 100px;
+    top:90px;
+    left:360px;
+    text-align: center;
+
+}
+#answer{
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    font-size: larger;
+}
+#chat{
+    top:500px;
+}
