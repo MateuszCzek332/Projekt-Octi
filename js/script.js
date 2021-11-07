@@ -1,6 +1,7 @@
 let btn = document.querySelector("#submit")
 let inp1 = document.querySelector("#input1")
 let ans = document.querySelector("#answer")
+let g = false
 //tablice z pytaniami:
 
 let name = ["imie",
@@ -44,7 +45,7 @@ let time_q = ["Godzina",
          "Podaj godzine", 
          "Ktora jest godzina", 
       ]
-let game = ["gra",
+let game_q = ["gra",
       "kamien papier nozyce", 
       "kamien, papier, nozyce", 
       "kamień, papier, nożyce", 
@@ -117,13 +118,82 @@ function time(){
     return tydzien + data.getDate()+"."+ (data.getUTCMonth()+1)+"."+ data.getFullYear()
 }
 
+
+let score = document.querySelector("#score")
+let playerpkt = 0
+let comppkt = 0
+function game(txt){
+
+    if(txt=="stop" || txt=="koniec"){
+        if(playerpkt>comppkt)
+        ans.innerHTML = "Wygrałeś wynikiem "+playerpkt+" - "+comppkt+". Chcesz jeszcze o coś spytać?"
+        else if(playerpkt<comppkt)
+        ans.innerHTML = "Przegrałeś wynikiem "+playerpkt+" - "+comppkt+". Chcesz jeszcze o coś spytać?"
+        else
+        ans.innerHTML = "Gra zakończyła się remisem "+playerpkt+" - "+comppkt+". Chcesz jeszcze o coś spytać?"
+
+        score.innerText = ""
+        comppkt = 0
+        playerpkt = 0
+        g=false
+    }
+    else if(txt=="Kamień" || txt=="Papier" || txt=="Nożyce" ){
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        let comp = getRandomInt(1,4)
+        if(comp==1)
+            comp="Kamień"
+        else if(comp==2)
+            comp="Papier"
+        else
+            comp="Nożyce"
+        
+        if(txt==comp){
+            ans.innerHTML = comp+" - Remis"
+        }
+        else if(txt=="Kamień" && comp=="Nożyce"){
+            ans.innerHTML = comp+" - Wygrałeś"
+            playerpkt++
+        }    
+        else if(txt=="Kamień" && comp=="Papier"){
+            ans.innerHTML = comp+" - Przegrałeś"
+            comppkt++
+        } 
+        else if(txt=="Papier" && comp=="Nożyce"){
+            ans.innerHTML = comp+" - Przegrałeś"
+            comppkt++
+        }    
+        else if(txt=="Papier" && comp=="Kamień"){
+            ans.innerHTML = comp+" - Wygrałeś"
+            playerpkt++
+        } 
+        else if(txt=="Nożyce" && comp=="Papier"){
+            ans.innerHTML = comp+" - Wygrałeś"
+            playerpkt++
+        }    
+        else if(txt=="Nożyce" && comp=="Kamień"){
+            ans.innerHTML = comp+" - Przegrałeś"
+            comppkt++
+        } 
+        score.innerHTML = "Ty "+playerpkt+" - "+comppkt+" Octi"
+    }
+    else
+    ans.innerHTML = "Zła wartosc :("
+
+}
+
 function answer (txt){
     //proste pytania
     if(name.includes(txt)){
         ans.innerHTML = "Jestem Octi z Flying Octopus"
     }
     else if(fav_col.includes(txt)){
-        ans.innerHTML = "zielony"
+        ans.innerHTML = "Zielony"
     }
     else if(fav_cnt.includes(txt)){
         ans.innerHTML = "Hiszpania"
@@ -145,14 +215,16 @@ function answer (txt){
         x= parseFloat(txt.slice(4))
         ans.innerHTML = "Pierwiastek z "+x+" wynosi: "+Math.sqrt(x).toFixed(3)
     }//kamien papier nozyce
-    else if(game.includes(txt)){
-        console.log("gra")
+    else if(game_q.includes(txt)){
+        ans.innerHTML = "Dobrze zagrajmy - jak bedziesz gotowy wpisz Kamień, Papier lub Nożyce"
+        score.innerHTML = "Ty "+playerpkt+" - "+comppkt+" Octi"
+        g = true
     }//else
     else if(txt==""){
-        ans.innerHTML = "napisz cos"
+        ans.innerHTML = "Napisz coś"
     }
     else{
-        ans.innerHTML = "nie rozumiem"
+        ans.innerHTML = "Nie rozumiem"
     }
 
 }
@@ -160,11 +232,19 @@ function answer (txt){
 function enter(){
     let txt=inp1.value
     if(txt.includes("\n")){
-        txt = txt.slice(0,-1)
-        inp1.value = ""
-        answer(txt)
+        if(g==true){
+            txt = txt.slice(0,-1)
+            inp1.value = ""
+            game(txt)
+        }
+        else{        
+            txt = txt.slice(0,-1)
+            inp1.value = ""
+            answer(txt)
+        }
     }
 }
+
 
 btn.addEventListener("click", function(){
     let txt=inp1.value

@@ -32,4 +32,19 @@
 }
 #chat{
     top:500px;
+    left:140px;
+}
+#submit{
+    height: 30px;
+    position: relative;
+    bottom:11px;
+    right: 0;
+}
+#input1{
+    height: 25px;
+}
+#score {
+    position: relative;
+    top: 350px;
+    left: 240px;
 }
