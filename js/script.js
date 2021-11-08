@@ -64,6 +64,15 @@ let game_q = ["gra",
       "kamień, papier, nożyce", 
             ]
 
+let week = ["Niedziela ",
+            "Poniedziałek ",
+            "Wtorek ",
+            "Środa ",
+            "Czwartek ",
+            "Piątek ",
+            "Sobota ",
+        ]
+
 function count(txt){
 
     if(txt.indexOf("+")>=0){
@@ -111,33 +120,6 @@ function count(txt){
         else
         return "Błędne dane"
     }
-}
-
-function time(){
-    data = new Date()
-    let tydzien
-    if(data.getDay()==1){
-        tydzien = "Poniedzialek "
-    }
-    else if(data.getDay()==2){
-        tydzien = "Wtorek "
-    }
-    else if(data.getDay()==3){
-        tydzien = "Środa "
-    }
-    else if(data.getDay()==4){
-        tydzien = "Czwartek "
-    }
-    else if(data.getDay()==5){
-        tydzien = "Piątek "
-    }
-    else if(data.getDay()==6){
-        tydzien = "Sobota "
-    }
-    else {
-        tydzien = "Niedziela "
-    }
-    return tydzien + data.getDate()+"."+ (data.getUTCMonth()+1)+"."+ data.getFullYear()
 }
 
 let score = document.querySelector("#score")
@@ -229,7 +211,8 @@ function answer (txt){
         ans.innerHTML = "Popatrz na mnie, czy ty sobie jaja robisz?"
     }// czas
     else if(date_q.includes(txt)){
-        ans.innerHTML = "Jest "+ time()
+        data = new Date()
+        ans.innerHTML = week[data.getDay()] + data.getDate()+"."+ (data.getUTCMonth()+1)+"."+ data.getFullYear()
     }
     else if(time_q.includes(txt)){
         data = new Date()
