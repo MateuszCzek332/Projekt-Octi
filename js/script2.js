@@ -2,23 +2,10 @@ let btn = document.querySelector("#submit")
 let inp1 = document.querySelector("#input1")
 let ans = document.querySelector("#answer")
 let data = new Date()
-let txt
-let g = false
-//tablice z pytaniami:         
-let game_q = ["gra",
-      "kamien papier nozyce", 
-      "kamien, papier, nozyce", 
-      "kamień, papier, nożyce", 
-            ]
-let week = ["Niedziela ",
-            "Poniedziałek ",
-            "Wtorek ",
-            "Środa ",
-            "Czwartek ",
-            "Piątek ",
-            "Sobota ",
-        ]
-
+let g = false        
+let week = ["Niedziela ","Poniedziałek ","Wtorek ","Środa ","Czwartek ","Piątek ","Sobota ",]
+//tablice z keywordami i odpowiedziami
+let game_q = ["gra","kamien papier nozyce", "kamien, papier, nozyce", "kamień, papier, nożyce"]
 let questions = [
     name = ["imie", "nazywasz", ],
     color = ["kolor", "ulubiony kolor", "ulubiony kolor", "najladniejszy kolor", "najładniejszy kolor"],
@@ -27,20 +14,7 @@ let questions = [
     animal = ["zwierze", "ulubione zwierze", "ulubione zwierzatko", "pupil"],
     time = ["godzina", "Godzina", "czas"],
     date = ["data", "dzien", "dzień", "dzis jest", "dzisiaj jest"],
-    math = ["sqrt", "+", "-", "*", "/", "%"],
 ]
-
-let questions2 = [
-    "imie", 
-    "kolor",
-    "kraj",
-    "jedzenie",
-    "zwierze",
-    "godzina", 
-    "data",
-    "+"
-]
-
 let answers = [
     "Jestem Octi z Flying Octopus",
     "Uwielbiam fioletowy",
@@ -51,10 +25,17 @@ let answers = [
     "Jest " + data.toLocaleString().slice(-8, -3)+" czasu polskiego",
 ]
 
-
 function count(txt){
 
-    if(txt.includes("+")){
+    if(txt.includes("sqrt")){
+        t = txt.indexOf("sqrt") + 4
+        x = parseFloat(txt.slice(t)) 
+        if(x>=0 && isFinite(x))
+        return "Wynik działania "+ txt +" to "+ Math.sqrt(x).toFixed(3)
+        else
+        return "Błędne dane"
+    }
+    else if(txt.includes("+")){
         t = txt.indexOf("+")
         x = parseFloat(txt.slice(0,t)) 
         y = parseFloat(txt.slice(t+1))
@@ -104,9 +85,10 @@ function count(txt){
 let score = document.querySelector("#score")
 let playerpkt = 0
 let comppkt = 0
+
 function game(txt){
 
-    if(txtincludes("stop") || txt.includes("koniec")){
+    if(txt.includes("stop") || txt.includes("koniec")){
         if(playerpkt>comppkt)
         ans.innerHTML = "Wygrałeś wynikiem "+playerpkt+" - "+comppkt+". Chcesz jeszcze o coś spytać?"
         else if(playerpkt<comppkt)
@@ -162,7 +144,6 @@ function game(txt){
             ans.innerHTML = comp+" - Punkt dla mnie"
             comppkt++
         } 
-        ans.innerHTML = ans.innerHTML
         score.innerHTML = "Ty "+playerpkt+" - "+comppkt+" Octi"
     }
     else
@@ -171,7 +152,7 @@ function game(txt){
 
 
 function answer (txt){
-    //proste pytania + czes + funkcje matematyczne
+    //proste pytania + czas + funkcje matematyczne
     let n = -1
     for(i=0; i<questions.length; i++){
         for(j=0; j<10; j++){
@@ -181,15 +162,15 @@ function answer (txt){
     }
     if(n>=0){
     ans.innerHTML = answers[n]
+    }
+    else if(txt.includes("+") || txt.includes("-") || txt.includes("*") || txt.includes("/") || txt.includes("%") || txt.includes("sqrt")){
+        ans.innerHTML = count(txt)
     }//kamien papier nozyce
     else if(game_q.includes(txt)){
         ans.innerHTML = "Dobrze zagrajmy - jak bedziesz gotowy wpisz Kamień, Papier lub Nożyce"
         score.innerHTML = "Ty "+playerpkt+" - "+comppkt+" Octi"
         g = true
     }//else
-    else if(txt=="ale es zadanko"){
-        ans.innerHTML = "Jeszcze jak"
-    }
     else if(txt==""){
         ans.innerHTML = "Napisz coś"
     }

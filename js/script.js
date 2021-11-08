@@ -113,32 +113,6 @@ function count(txt){
     }
 }
 
-function time(){
-    data = new Date()
-    let tydzien
-    if(data.getDay()==1){
-        tydzien = "Poniedzialek "
-    }
-    else if(data.getDay()==2){
-        tydzien = "Wtorek "
-    }
-    else if(data.getDay()==3){
-        tydzien = "Środa "
-    }
-    else if(data.getDay()==4){
-        tydzien = "Czwartek "
-    }
-    else if(data.getDay()==5){
-        tydzien = "Piątek "
-    }
-    else if(data.getDay()==6){
-        tydzien = "Sobota "
-    }
-    else {
-        tydzien = "Niedziela "
-    }
-    return tydzien + data.getDate()+"."+ (data.getUTCMonth()+1)+"."+ data.getFullYear()
-}
 
 let score = document.querySelector("#score")
 let playerpkt = 0
@@ -229,7 +203,7 @@ function answer (txt){
         ans.innerHTML = "Popatrz na mnie, czy ty sobie jaja robisz?"
     }// czas
     else if(date_q.includes(txt)){
-        ans.innerHTML = "Jest "+ time()
+        ans.innerHTML = "Jest "+ week[data.getDay()] + data.getDate()+"."+ (data.getUTCMonth()+1)+"."+ data.getFullYear()
     }
     else if(time_q.includes(txt)){
         data = new Date()
@@ -247,9 +221,6 @@ function answer (txt){
         score.innerHTML = "Ty "+playerpkt+" - "+comppkt+" Octi"
         g = true
     }//else
-    else if(txt=="ale es zadanko"){
-        ans.innerHTML = "Jeszcze jak"
-    }
     else if(txt==""){
         ans.innerHTML = "Napisz coś"
     }
