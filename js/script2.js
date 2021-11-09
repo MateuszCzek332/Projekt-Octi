@@ -7,18 +7,20 @@ let week = ["Niedziela ","Poniedziałek ","Wtorek ","Środa ","Czwartek ","Piąt
 //tablice z keywordami i odpowiedziami
 let game_q = ["gra","kamien papier nozyce", "kamien, papier, nozyce", "kamień, papier, nożyce"]
 let questions = [
-    name = ["imie", "nazywasz", ],
-    color = ["kolor", "ulubiony kolor", "ulubiony kolor", "najladniejszy kolor", "najładniejszy kolor"],
-    country = ["kraj", "ulubiony kraj", "ulubione panstwo"],
-    eat = ["jedzenie", "ulubiona potrawa", "ulubione jedzenie"],
-    animal = ["zwierze", "ulubione zwierze", "ulubione zwierzatko", "pupil"],
-    time = ["godzina", "Godzina", "czas"],
-    date = ["data", "dzien", "dzień", "dzis jest", "dzisiaj jest"],
+    name = ["jak masz na imie", "jak sie nazywasz", ],
+    color = ["podaj kolor", "jaki jest twoj ulubiony kolor", "podaj ulubiony kolor", "podaj najladniejszy kolor", "jaka jest twoja ulubiona brawa"],
+    country = ["podaj kraj", "jaki jest twoj ulubiony kraj", "jakie jest twoje ulubione panstwo"],
+    city = ["podaj miasto", "jakie jest twoje ulubione miasto", "jakie miasto najbardziej lubisz"],
+    eat = ["podaj jedzenie", "jaka jest twoja ulubiona potrawa", "jakie jest twoje ulubione jedzenie"],
+    animal = ["podaj zwierze", "jakie jest twoje ulubione zwierze", "jakie zwierzatko najbardziej lubisz",],
+    date = ["data", "ktory dzis jest", "jaki mamy dzien", "co dzis jest"],
+    time = ["godzina", "ktora jest godzina", "jaki jest czas"],
 ]
 let answers = [
     "Jestem Octi z Flying Octopus",
     "Uwielbiam fioletowy",
     "Zawsze dobrze wspominam Hiszpanie",
+    "Najlepiej bawiłam się w Nowym Jorku",
     "Nie mogę powiedzieć nic innego niż pierogi",
     "Popatrz na mnie, czy ty sobie jaja robisz?",
     week[data.getDay()] + data.getDate()+"."+ (data.getUTCMonth()+1)+"."+ data.getFullYear(),
@@ -85,8 +87,12 @@ function count(txt){
 let score = document.querySelector("#score")
 let playerpkt = 0
 let comppkt = 0
-
 function game(txt){
+
+    let rock = ["kamień", "kamien", "Kamień", "Kamien"]
+    let paper = ["Papier", "papier"]
+    let scissors = ["Nożyce", "Nozyce", "nozyce", "nożyce", "nozyczki", "nożyczki", "Nozyczki", "Nożyczki"]
+
 
     if(txt.includes("stop") || txt.includes("koniec")){
         if(playerpkt>comppkt)
@@ -101,7 +107,14 @@ function game(txt){
         playerpkt = 0
         g=false
     }
-    else if(txt=="Kamień" || txt=="Papier" || txt=="Nożyce" ){
+    else if(rock.includes(txt) || paper.includes(txt) || scissors.includes(txt) ){
+
+        if(rock.includes(txt))
+            txt="Kamień"
+        else if(paper.includes(txt))
+            txt="Kamień"
+        else   
+            txt="Nożyce"
 
         function getRandomInt(min, max) {
             min = Math.ceil(min);
@@ -150,9 +163,8 @@ function game(txt){
     ans.innerHTML = "Zła wartosc :("
 }
 
-
 function answer (txt){
-    //proste pytania + czas + funkcje matematyczne
+    //proste pytania + czas
     let n = -1
     for(i=0; i<questions.length; i++){
         for(j=0; j<10; j++){
@@ -162,7 +174,7 @@ function answer (txt){
     }
     if(n>=0){
     ans.innerHTML = answers[n]
-    }
+    }//funkcje matematyczne
     else if(txt.includes("+") || txt.includes("-") || txt.includes("*") || txt.includes("/") || txt.includes("%") || txt.includes("sqrt")){
         ans.innerHTML = count(txt)
     }//kamien papier nozyce

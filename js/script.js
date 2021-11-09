@@ -1,72 +1,43 @@
 let btn = document.querySelector("#submit")
 let inp1 = document.querySelector("#input1")
 let ans = document.querySelector("#answer")
-let g = false
-//tablice z pytaniami:
-let name = ["imie",
-      "Jak sie nazywasz", 
-      "Kim jestes", 
-      "Czyja maskotka jestes", 
-            ]
-let fav_col = ["Podaj kolor",
-                "podaj kolor",
-                "Podaj ulubiony kolor", 
-                "Podaj swoj ulubiony kolor", 
-                "Podaj swój ulubiony kolor", 
-                "Jaki jest twoj ulubiony kolor", 
-                "Jaki jest twój ulubiony kolor"
-            ]
-let fav_cnt = ["Podaj kraj",
-            "podaj kraj",
-            "Podaj ulubiony kraj", 
-            "Podaj swoj ulubiony kraj", 
-            "Podaj swój ulubiony kraj", 
-            "Jaki jest twoj ulubiony kraj", 
-            "Jaki jest twój ulubiony kraj"
-            ]
-let fav_city = ["Podaj miasto",
-            "podaj miasto",
-            "Podaj ulubione miasto", 
-            "Podaj swoje ulubione miasto", 
-            "Podaj swoja ulubiona miejscowosc", 
-            "Jakie jest twoje ulubione miasto", 
-            ]
-let fav_eat = ["Podaj potrawe",
-            "podaj potrawe",
-            "Podaj ulubiona potrawe", 
-            "Podaj swoje ulubione jedzenie", 
-            "Jaka jest twoja ulubiona potrawa", 
-            "Jakie jest twoje ulubione jedzenie",
-            ]
-let fav_aml = ["Podaj zwierze",
-            "podaj zwierze",
-            "Podaj ulubione zwierzatko", 
-            "Podaj swoje ulubione zwierzatko", 
-            "Jakie jest twoje ulubione zwierze", 
-            "Jakie jest twoje ulubione zwierzatko",
-            ]            
-let date_q = ["Data",
-            "data",
-            "Podaj date", 
-            "Ktory dzis jest", 
-            "Jaki mamy dzien", 
-            "Jaki mamy dzień", 
-            "Co dzis jest", 
-            ]
-let time_q = ["Godzina",
-        "godzina",
-         "Podaj godzine", 
-         "Ktora jest godzina", 
-            ]
-let game_q = ["gra",
-      "kamien papier nozyce", 
-      "kamien, papier, nozyce", 
-      "kamień, papier, nożyce", 
-            ]
+let data = new Date()
+let g = false        
+let week = ["Niedziela ","Poniedziałek ","Wtorek ","Środa ","Czwartek ","Piątek ","Sobota ",]
+//tablice z keywordami i odpowiedziami
+let game_q = ["gra","kamien papier nozyce", "kamien, papier, nozyce", "kamień, papier, nożyce"]
+let questions = [
+    name = ["jak masz na imie", "jak sie nazywasz", ],
+    color = ["podaj kolor", "jaki jest twoj ulubiony kolor", "podaj ulubiony kolor", "podaj najladniejszy kolor", "jaka jest twoja ulubiona brawa"],
+    country = ["podaj kraj", "jaki jest twoj ulubiony kraj", "jakie jest twoje ulubione panstwo"],
+    city = ["podaj miasto", "jakie jest twoje ulubione miasto", "jakie miasto najbardziej lubisz"],
+    eat = ["podaj jedzenie", "jaka jest twoja ulubiona potrawa", "jakie jest twoje ulubione jedzenie"],
+    animal = ["podaj zwierze", "jakie jest twoje ulubione zwierze", "jakie zwierzatko najbardziej lubisz",],
+    date = ["data", "ktory dzis jest", "jaki mamy dzien", "co dzis jest"],
+    time = ["godzina", "ktora jest godzina", "jaki jest czas"],
+]
+let answers = [
+    "Jestem Octi z Flying Octopus",
+    "Uwielbiam fioletowy",
+    "Zawsze dobrze wspominam Hiszpanie",
+    "Najlepiej bawiłam się w Nowym Jorku",
+    "Nie mogę powiedzieć nic innego niż pierogi",
+    "Popatrz na mnie, czy ty sobie jaja robisz?",
+    week[data.getDay()] + data.getDate()+"."+ (data.getUTCMonth()+1)+"."+ data.getFullYear(),
+    "Jest " + data.toLocaleString().slice(-8, -3)+" czasu polskiego",
+]
 
 function count(txt){
 
-    if(txt.indexOf("+")>=0){
+    if(txt.includes("sqrt")){
+        t = txt.indexOf("sqrt") + 4
+        x = parseFloat(txt.slice(t)) 
+        if(x>=0 && isFinite(x))
+        return "Wynik działania "+ txt +" to "+ Math.sqrt(x).toFixed(3)
+        else
+        return "Błędne dane"
+    }
+    else if(txt.includes("+")){
         t = txt.indexOf("+")
         x = parseFloat(txt.slice(0,t)) 
         y = parseFloat(txt.slice(t+1))
@@ -75,7 +46,7 @@ function count(txt){
         else
         return "Błędne dane"
     }
-    else if(txt.indexOf("-")>=0){
+    else if(txt.includes("-")){
         t = txt.indexOf("-")
         x = parseFloat(txt.slice(0,t)) 
         y = parseFloat(txt.slice(t+1))
@@ -113,13 +84,17 @@ function count(txt){
     }
 }
 
-
 let score = document.querySelector("#score")
 let playerpkt = 0
 let comppkt = 0
 function game(txt){
 
-    if(txt=="stop" || txt=="koniec"){
+    let rock = ["kamień", "kamien", "Kamień", "Kamien"]
+    let paper = ["Papier", "papier"]
+    let scissors = ["Nożyce", "Nozyce", "nozyce", "nożyce", "nozyczki", "nożyczki", "Nozyczki", "Nożyczki"]
+
+
+    if(txt.includes("stop") || txt.includes("koniec")){
         if(playerpkt>comppkt)
         ans.innerHTML = "Wygrałeś wynikiem "+playerpkt+" - "+comppkt+". Chcesz jeszcze o coś spytać?"
         else if(playerpkt<comppkt)
@@ -132,7 +107,14 @@ function game(txt){
         playerpkt = 0
         g=false
     }
-    else if(txt=="Kamień" || txt=="Papier" || txt=="Nożyce" ){
+    else if(rock.includes(txt) || paper.includes(txt) || scissors.includes(txt) ){
+
+        if(rock.includes(txt))
+            txt="Kamień"
+        else if(paper.includes(txt))
+            txt="Kamień"
+        else   
+            txt="Nożyce"
 
         function getRandomInt(min, max) {
             min = Math.ceil(min);
@@ -175,7 +157,6 @@ function game(txt){
             ans.innerHTML = comp+" - Punkt dla mnie"
             comppkt++
         } 
-        ans.innerHTML = ans.innerHTML
         score.innerHTML = "Ty "+playerpkt+" - "+comppkt+" Octi"
     }
     else
@@ -183,38 +164,19 @@ function game(txt){
 }
 
 function answer (txt){
-    //proste pytania
-    if(name.includes(txt)){
-        ans.innerHTML = "Jestem Octi z Flying Octopus"
+    //proste pytania + czas
+    let n = -1
+    for(i=0; i<questions.length; i++){
+        for(j=0; j<10; j++){
+            if(txt.includes(questions[i][j]))
+                n = i
+        }
     }
-    else if(fav_col.includes(txt)){
-        ans.innerHTML = "Uwielbiam fioletowy"
-    }
-    else if(fav_cnt.includes(txt)){
-        ans.innerHTML = "Zawsze dobrze wspominam Hiszpanie"
-    }
-    else if(fav_city.includes(txt)){
-        ans.innerHTML = "Zdecydowanie Nowy Jork"
-    }
-    else if(fav_eat.includes(txt)){
-        ans.innerHTML = "Nie mogę powiedzieć nic innego niż pierogi"
-    }
-    else if(fav_aml.includes(txt)){
-        ans.innerHTML = "Popatrz na mnie, czy ty sobie jaja robisz?"
-    }// czas
-    else if(date_q.includes(txt)){
-        ans.innerHTML = "Jest "+ week[data.getDay()] + data.getDate()+"."+ (data.getUTCMonth()+1)+"."+ data.getFullYear()
-    }
-    else if(time_q.includes(txt)){
-        data = new Date()
-        ans.innerHTML = "Jest " + data.toLocaleString().slice(-8, -3)+" czasu polskiego"
+    if(n>=0){
+    ans.innerHTML = answers[n]
     }//funkcje matematyczne
-    else if(txt.includes("+") || txt.includes("-") || txt.includes("*") || txt.includes("/") || txt.includes("%")){
+    else if(txt.includes("+") || txt.includes("-") || txt.includes("*") || txt.includes("/") || txt.includes("%") || txt.includes("sqrt")){
         ans.innerHTML = count(txt)
-    }
-    else if(txt.includes("sqrt")){
-        x= parseFloat(txt.slice(4))
-        ans.innerHTML = "Pierwiastek z "+x+" wynosi: "+Math.sqrt(x).toFixed(3)
     }//kamien papier nozyce
     else if(game_q.includes(txt)){
         ans.innerHTML = "Dobrze zagrajmy - jak bedziesz gotowy wpisz Kamień, Papier lub Nożyce"
