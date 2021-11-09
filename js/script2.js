@@ -27,15 +27,6 @@ let answers = [
     "Jest " + data.toLocaleString().slice(-8, -3)+" czasu polskiego",
 ]
 
-let week = ["Niedziela ",
-            "Poniedziałek ",
-            "Wtorek ",
-            "Środa ",
-            "Czwartek ",
-            "Piątek ",
-            "Sobota ",
-        ]
-
 function count(txt){
 
     if(txt.includes("sqrt")){
@@ -173,30 +164,6 @@ function game(txt){
 }
 
 function answer (txt){
-<<<<<<< HEAD
-    //proste pytania
-    if(name.includes(txt)){
-        ans.innerHTML = "Jestem Octi z Flying Octopus"
-    }
-    else if(fav_col.includes(txt)){
-        ans.innerHTML = "Uwielbiam fioletowy"
-    }
-    else if(fav_cnt.includes(txt)){
-        ans.innerHTML = "Zawsze dobrze wspominam Hiszpanie"
-    }
-    else if(fav_city.includes(txt)){
-        ans.innerHTML = "Zdecydowanie Nowy Jork"
-    }
-    else if(fav_eat.includes(txt)){
-        ans.innerHTML = "Nie mogę powiedzieć nic innego niż pierogi"
-    }
-    else if(fav_aml.includes(txt)){
-        ans.innerHTML = "Popatrz na mnie, czy ty sobie jaja robisz?"
-    }// czas
-    else if(date_q.includes(txt)){
-        data = new Date()
-        ans.innerHTML = week[data.getDay()] + data.getDate()+"."+ (data.getUTCMonth()+1)+"."+ data.getFullYear()
-=======
     //proste pytania + czas
     let n = -1
     for(i=0; i<questions.length; i++){
@@ -204,7 +171,6 @@ function answer (txt){
             if(txt.includes(questions[i][j]))
                 n = i
         }
->>>>>>> kaywords
     }
     if(n>=0){
     ans.innerHTML = answers[n]
